@@ -1,1 +1,12 @@
 .DS_Store
+
+target/
+.idea
+
+.factorypath
+
+.classpathgit add
+
+.project
+
+.settings/org.eclipse.core.resources.prefs
