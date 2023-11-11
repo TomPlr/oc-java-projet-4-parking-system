@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.service;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,7 +10,9 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
+    public void calculateFare(Ticket ticket, Boolean discount){
+        DecimalFormat df = new DecimalFormat("0.00");
+
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -31,8 +34,16 @@ public class FareCalculatorService {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
                     break;
                 }
-                default: throw new IllegalArgumentException("Unkown Parking Type");
+                default: throw new IllegalArgumentException("Unknown Parking Type");
             }
         }
+
+        if (discount){
+            ticket.setPrice(Double.parseDouble(df.format(ticket.getPrice() * 0.95)));
+        }
+    }
+
+    public void calculateFare(Ticket ticket){
+        calculateFare(ticket, false);
     }
 }

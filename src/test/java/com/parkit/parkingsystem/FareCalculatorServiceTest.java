@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,12 +21,12 @@ public class FareCalculatorServiceTest {
     private Ticket ticket;
 
     @BeforeAll
-    private static void setUp() {
+    public static void setUp() {
         fareCalculatorService = new FareCalculatorService();
     }
 
     @BeforeEach
-    private void setUpPerTest() {
+    public void setUpPerTest() {
         ticket = new Ticket();
     }
 
@@ -153,5 +154,36 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
         assertEquals( 0 , ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareCarWithDiscount(){
+        LocalDateTime inTime = LocalDateTime.now().minusMinutes(31);
+        LocalDateTime outTime = LocalDateTime.now();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        double duration = (double) Duration.between(inTime, outTime).toMinutes() / 60;
+
+
+        ticket.setInTime(java.sql.Timestamp.valueOf(inTime));
+        ticket.setOutTime(java.sql.Timestamp.valueOf(outTime));
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+        assertEquals(Fare.CAR_RATE_PER_HOUR * duration * 0.95, ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareBikeWithDiscount(){
+        LocalDateTime inTime = LocalDateTime.now().minusMinutes(31);
+        LocalDateTime outTime = LocalDateTime.now();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+
+        double duration = (double) Duration.between(inTime, outTime).toMinutes() / 60;
+
+        ticket.setInTime(java.sql.Timestamp.valueOf(inTime));
+        ticket.setOutTime(java.sql.Timestamp.valueOf(outTime));
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, true);
+        assertEquals(Fare.BIKE_RATE_PER_HOUR * duration * 0.95 , ticket.getPrice());
     }
 }
