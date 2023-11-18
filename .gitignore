@@ -1,7 +1,8 @@
-.DS_Store
-
-target/
+target
 .idea
+htmlReport
+
+.DS_Store
 
 .factorypath
 
@@ -10,3 +11,5 @@ target/
 .project
 
 .settings/org.eclipse.core.resources.prefs
+
+docker-compose.yaml

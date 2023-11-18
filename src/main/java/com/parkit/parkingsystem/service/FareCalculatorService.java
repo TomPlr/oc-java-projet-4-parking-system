@@ -10,7 +10,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket, Boolean discount){
+    public void calculateFare(Ticket ticket, Boolean hasDiscount){
         DecimalFormat df = new DecimalFormat("0.00");
 
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
@@ -25,21 +25,18 @@ public class FareCalculatorService {
         if(duration <= 0.5){
             ticket.setPrice(0);
         } else {
+            double discount = hasDiscount ? 0.95 : 1 ;
             switch (ticket.getParkingSpot().getParkingType()){
                 case CAR: {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * discount);
                     break;
                 }
                 case BIKE: {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * discount);
                     break;
                 }
                 default: throw new IllegalArgumentException("Unknown Parking Type");
             }
-        }
-
-        if (discount){
-            ticket.setPrice(Double.parseDouble(df.format(ticket.getPrice() * 0.95)));
         }
     }
 
