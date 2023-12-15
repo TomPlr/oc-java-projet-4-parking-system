@@ -124,6 +124,7 @@
                             </excludes>
                             <includes>
                                 <include>**/*IT.java</include>
+                                <include>**/*Test.java</include>
                             </includes>
                         </configuration>
                     </execution>
@@ -132,7 +133,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <version>0.8.7</version>
                 <executions>
                     <execution>
                         <goals>
@@ -141,7 +142,7 @@
                     </execution>
                     <execution>
                         <id>jacoco-report</id>
-                        <phase>test</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
