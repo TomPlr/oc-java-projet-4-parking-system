@@ -1,1 +1,15 @@
+target
+.idea
+htmlReport
+
 .DS_Store
+
+.factorypath
+
+.classpathgit add
+
+.project
+
+.settings/org.eclipse.core.resources.prefs
+
+docker-compose.yaml

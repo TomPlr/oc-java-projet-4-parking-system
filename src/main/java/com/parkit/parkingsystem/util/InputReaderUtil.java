@@ -21,10 +21,10 @@ public class InputReaderUtil {
         }
     }
 
-    public String readVehicleRegistrationNumber() throws Exception {
+    public String readVehicleRegistrationNumber() {
         try {
             String vehicleRegNumber= scan.nextLine();
-            if(vehicleRegNumber == null || vehicleRegNumber.trim().length()==0) {
+            if(vehicleRegNumber == null || vehicleRegNumber.trim().isEmpty()) {
                 throw new IllegalArgumentException("Invalid input provided");
             }
             return vehicleRegNumber;
